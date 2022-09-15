@@ -1,0 +1,15 @@
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\bin\Debug\net6.0\ProfHomeWork.exe
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\bin\Debug\net6.0\ProfHomeWork.deps.json
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\bin\Debug\net6.0\ProfHomeWork.runtimeconfig.json
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\bin\Debug\net6.0\ProfHomeWork.dll
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\bin\Debug\net6.0\ProfHomeWork.pdb
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\obj\Debug\net6.0\ProfHomeWork.csproj.AssemblyReference.cache
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\obj\Debug\net6.0\ProfHomeWork.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\obj\Debug\net6.0\ProfHomeWork.AssemblyInfoInputs.cache
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\obj\Debug\net6.0\ProfHomeWork.AssemblyInfo.cs
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\obj\Debug\net6.0\ProfHomeWork.csproj.CoreCompileInputs.cache
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\obj\Debug\net6.0\ProfHomeWork.dll
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\obj\Debug\net6.0\refint\ProfHomeWork.dll
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\obj\Debug\net6.0\ProfHomeWork.pdb
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\obj\Debug\net6.0\ProfHomeWork.genruntimeconfig.cache
+C:\Users\UNICEF\source\repos\ProfHomeWork\ProfHomeWork\obj\Debug\net6.0\ref\ProfHomeWork.dll

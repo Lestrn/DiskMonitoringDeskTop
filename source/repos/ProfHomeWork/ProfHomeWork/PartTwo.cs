@@ -62,8 +62,12 @@ namespace ProfHomeWork
             }
             for (int i = 0; i < _citizens.Length; i++)
             {
-                if (value.Equals(_citizens[i]))
+                if (value.Equals(_citizens[i])) 
+                {
+                    Console.WriteLine("Cant add same Citizen!");
                     return 0;
+                }
+                    
             }
                         
             bool isAdded = false;
@@ -177,7 +181,7 @@ namespace ProfHomeWork
         {
             object[] temp = new object[_citizens.Length + 1];
             object tempValue = _citizens[index];
-            for (int i = 0; i < _citizens.Length; i++)
+            for (int i = 0; i < temp.Length; i++)
             {
                 if (i < index)
                 {
@@ -189,7 +193,7 @@ namespace ProfHomeWork
                 }
                 else if (i > index)
                 {
-                    temp[i + 1] = _citizens[i];
+                    temp[i] = _citizens[i - 1];
                 }
             }
             _citizens = temp;

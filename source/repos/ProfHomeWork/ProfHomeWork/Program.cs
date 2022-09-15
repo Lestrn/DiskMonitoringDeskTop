@@ -61,10 +61,12 @@ class Months : IEnumerable, IEnumerator
        position = -1;
     }
 }
+
 namespace ProfHomeWork
 {
     class Program
     {
+
         private static void Main()
         {
             Months months = new Months();
@@ -83,6 +85,18 @@ namespace ProfHomeWork
             Console.WriteLine("By Id");
             Console.ResetColor();
             Console.WriteLine(months[2]);
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Test part 2");
+            Citizen citizens = new Pensioner();
+            for (int i = 0; i < 15; i++)
+            {
+                citizens.Add(new Student());
+            }
+            citizens.Add(new Pensioner());
+            foreach (var item in citizens)
+            {
+                Console.WriteLine(item.ToString());
+            }
         }
     }
 }

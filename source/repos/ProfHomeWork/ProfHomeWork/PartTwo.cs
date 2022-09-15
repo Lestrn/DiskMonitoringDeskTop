@@ -26,6 +26,7 @@ namespace ProfHomeWork
 {
     public abstract class Citizen : IList
     {
+        public abstract string Name { get; set; }
         public abstract string PasportId { get;}
         private char[] _symbols = new char[] { 'A', 'H', 'B', 'C', 'D', 'E', 'U' ,'1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
         protected object[] _citizens = new object[10];
@@ -59,17 +60,75 @@ namespace ProfHomeWork
             {
                 return 0;
             }
+            for (int i = 0; i < _citizens.Length; i++)
+            {
+                if (value.Equals(_citizens[i]))
+                    return 0;
+            }
+                        
             bool isAdded = false;
+            int iPosition = 0;
+            if(value is Pensioner)
+            {
+                object tempCitizen = null;
+                for (int i = 0; i < _citizens.Length; i++)
+                {
+                    if (_citizens[i] == default)
+                    {
+                        _citizens[i] = value;
+                        isAdded = true;
+                        break;
+                    }
+                    if (_citizens[i] is Pensioner)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        tempCitizen = _citizens[i];
+                        _citizens[i] = value;
+                        iPosition = i;
+                        break;
+                    }
+                }
+                if (!isAdded)
+                {
+                    ++iPosition;
+                    bool iIsFound = false;
+                    object[] temp = new object[_citizens.Length + 1];
+                    temp[iPosition] = tempCitizen;
+                    for (int i = 0; i < temp.Length - 1; i++)
+                    {
+                        if (i == iPosition)
+                        {
+                            continue;
+                            iIsFound = true;
+                        }
+                        else if (iIsFound)
+                        {
+                            temp[i + 1] = _citizens[i];
+                        }
+                        else
+                        {
+                            temp[i] = _citizens[i];
+                        }
+                    }
+                    _citizens = temp;
+                    return 0;
+                }
+            }
             for (int i = 0; i < _citizens.Length; i++)
             {
                 if(_citizens[i] == default) {
                     _citizens[i] = value;
                     isAdded = true;
+                    break;
                 }
             }
             if (!isAdded)
             {
                 object[] temp = new object[_citizens.Length + 1];
+                _citizens.CopyTo(temp, 0);
                 temp[temp.Length - 1] = value;
                 _citizens = temp;
             }
@@ -160,8 +219,6 @@ namespace ProfHomeWork
 
             }
         }
-
-
         public void RemoveAt(int index)
         {
 
@@ -190,13 +247,16 @@ namespace ProfHomeWork
     }
     public class Student : Citizen
     {
-       
+        public override string Name { get; set; }
         public override string PasportId { get; }
-        Student()
+        public Student()
         {
             PasportId = base.GetPassportID();
         }
-
+        public override string ToString()
+        {
+            return $" Name = {Name}, Pasport ID = {PasportId}";
+        }
         public override bool Equals(object? obj)
         {
             Student student = obj as Student;
@@ -204,14 +264,23 @@ namespace ProfHomeWork
                 return false;
             return student.PasportId == this.PasportId;
         }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
     }
     public class Worker : Citizen
     {
+        public override string Name { get; set; }
         public override string PasportId { get; }
-        Worker()
+        public Worker()
         {
             PasportId = base.GetPassportID();
+        }
+        public override string ToString()
+        {
+            return $" Name = {Name}, Pasport ID = {PasportId}";
         }
         public override bool Equals(object? obj)
         {
@@ -220,11 +289,20 @@ namespace ProfHomeWork
                 return false;
             return worker.PasportId == this.PasportId;
         }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
     public class Pensioner : Citizen
     {
+        public override string Name { get; set; }
         public override string PasportId { get; }
-        Pensioner()
+        public override string ToString()
+        {
+            return $" Name = {Name}, Pasport ID = {PasportId}";
+        }
+        public Pensioner()
         {
             PasportId = base.GetPassportID();
         }
@@ -234,6 +312,10 @@ namespace ProfHomeWork
             if (pensioner == null)
                 return false;
             return pensioner.PasportId == this.PasportId;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

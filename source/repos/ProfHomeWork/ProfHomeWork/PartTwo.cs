@@ -97,16 +97,17 @@ namespace ProfHomeWork
                     bool iIsFound = false;
                     object[] temp = new object[_citizens.Length + 1];
                     temp[iPosition] = tempCitizen;
-                    for (int i = 0; i < temp.Length - 1; i++)
+                    for (int i = 0; i < temp.Length; i++)
                     {
                         if (i == iPosition)
                         {
-                            continue;
                             iIsFound = true;
+                            continue;
+                            
                         }
                         else if (iIsFound)
                         {
-                            temp[i + 1] = _citizens[i];
+                            temp[i] = _citizens[i - 1];
                         }
                         else
                         {

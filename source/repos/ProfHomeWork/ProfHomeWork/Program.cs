@@ -90,9 +90,11 @@ namespace ProfHomeWork
             Citizen citizens = new Pensioner();
             for (int i = 0; i < 15; i++)
             {
-                citizens.Add(new Student());
+                citizens.Add(new Student() { Name = "Baran"});
             }
-            citizens.Add(new Pensioner());
+            citizens.Add(new Pensioner() { Name = "Babulya"});
+            citizens.Add(new Pensioner() { Name = "Babka" });
+            citizens.Add(new Worker() { Name = "Worker" });
             foreach (var item in citizens)
             {
                 Console.WriteLine(item.ToString());

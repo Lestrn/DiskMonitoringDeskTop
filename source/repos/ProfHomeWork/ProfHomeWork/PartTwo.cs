@@ -212,14 +212,13 @@ namespace ProfHomeWork
                     isFound = true;
                     temp = i;
                 }
-                if (isFound && temp < _citizens.Length - 1)
+                if (isFound && i < _citizens.Length - 1)
                 {
                     _citizens[i] = _citizens[i + 1];
-                    temp = i;
                 }
-                if(isFound && temp >= _citizens.Length - 1)
+                if(isFound && i >= _citizens.Length - 1)
                 {
-                    _citizens[i] = default;
+                    _citizens[i] = new object();
                 }
 
             }
@@ -235,7 +234,7 @@ namespace ProfHomeWork
                 }
                 else if(i == _citizens.Length - 1)
                 {
-                    _citizens[i] = default;
+                    _citizens[i] = new object();
                 }                               
             }
         }

@@ -96,10 +96,13 @@ namespace ProfHomeWork
             citizens.Add(new Pensioner() { Name = "Babka" });
             citizens.Add(new Worker() { Name = "Worker" });
             citizens.Insert(7, new Worker() { Name = "Inserted Worker" });
+           // citizens.RemoveAt(0);
+            citizens.Remove(citizens[1]);
             foreach (var item in citizens)
             {
                 Console.WriteLine(item.ToString());
             }
+
         }
     }
 }

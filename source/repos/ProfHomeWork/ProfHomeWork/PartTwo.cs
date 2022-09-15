@@ -200,7 +200,10 @@ namespace ProfHomeWork
 
 
         }
-
+        public object ReturnLast()
+        {
+            return _citizens[^1];
+        }
         public void Remove(object? value)
         {
             bool isFound = false;

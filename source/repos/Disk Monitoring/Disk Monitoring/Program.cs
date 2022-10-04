@@ -34,24 +34,29 @@ namespace Disk_Monitoring
             } while (true);
             return diskPath;
         }
+        private bool IsFile(string path)
+        {
+            bool isFile;
+            try                                                                 // Checking if path is directory or path 
+            {
+                string[] subfolders = Directory.GetDirectories(path);
+
+                isFile = false;
+            }
+            catch (System.IO.IOException)
+            {
+                isFile = true;
+            }
+            return isFile;
+        }
         public  void WatcherChanged(object sender, FileSystemEventArgs e)
         {
             
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                bool bIsFile = false;
+                bool isFile = IsFile(e.FullPath);
 
-                try                                                                 // Checking if path is directory or path 
-                {
-                    string[] subfolders = Directory.GetDirectories(e.FullPath);
-
-                    bIsFile = false;
-                }
-                catch (System.IO.IOException)
-                {
-                    bIsFile = true;
-                }
-                if (bIsFile)
+                if (isFile)
                 {
                     Console.WriteLine($"File was changed! Path: {e.FullPath} Name:{e.Name}");
                     FileInfo fileInfo = new FileInfo(e.FullPath);

@@ -39,8 +39,6 @@ namespace Disk_Monitoring
             
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                string pathExtension;
-                pathExtension = Path.GetExtension(e.FullPath);
                 bool bIsFile = false;
 
                 try                                                                 // Checking if path is directory or path 
@@ -56,6 +54,8 @@ namespace Disk_Monitoring
                 if (bIsFile)
                 {
                     Console.WriteLine($"File was changed! Path: {e.FullPath} Name:{e.Name}");
+                    FileInfo fileInfo = new FileInfo(e.FullPath);
+                    Console.WriteLine($"Size of file {fileInfo.Length / 1024}kb");
                     return;
                 }
                 if (!buffer.Contains(e.FullPath))
@@ -99,8 +99,7 @@ namespace Disk_Monitoring
             watcher.EnableRaisingEvents = true;
             watcher.Renamed += new RenamedEventHandler(WatcherRenamed);
             watcher.Changed += new FileSystemEventHandler(WatcherChanged);
-            var change = watcher.WaitForChanged(WatcherChangeTypes.All);
-            Console.WriteLine($"Type of change: {change.ChangeType}\nName:{change.Name}");
+            watcher.Created += new FileSystemEventHandler(WatcherChanged);
             watcher.Deleted += new FileSystemEventHandler(WatcherChanged);
         }
     }

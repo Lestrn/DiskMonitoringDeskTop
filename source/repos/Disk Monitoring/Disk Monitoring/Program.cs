@@ -38,11 +38,31 @@ namespace Disk_Monitoring
         {
             
             if (e.ChangeType == WatcherChangeTypes.Changed)
-            {              
+            {
+                string pathExtension;
+                pathExtension = Path.GetExtension(e.FullPath);
+                bool bIsFile = false;
+
+                try                                                                 // Checking if path is directory or path 
+                {
+                    string[] subfolders = Directory.GetDirectories(e.FullPath);
+
+                    bIsFile = false;
+                }
+                catch (System.IO.IOException)
+                {
+                    bIsFile = true;
+                }
+                if (bIsFile)
+                {
+                    Console.WriteLine($"File was changed! Path: {e.FullPath} Name:{e.Name}");
+                    return;
+                }
                 if (!buffer.Contains(e.FullPath))
                 {                    
                     new Thread(this.MonitoringDirectories).Start(e.FullPath);
                 }
+                
                 buffer.Add(e.FullPath);
 
             }
@@ -86,7 +106,7 @@ namespace Disk_Monitoring
     }
     class Program
     {
-        private static async Task Main()
+        private static void Main()
         {
             DiskMonitoring monitorer = new DiskMonitoring();
             monitorer.GetAvailableDisks();

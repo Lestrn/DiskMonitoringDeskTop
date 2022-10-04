@@ -6,6 +6,7 @@ namespace Disk_Monitoring
     {
         public string tempPath { get; private set; }
         public bool PathIsChanged { get; set; }
+        List<string> buffer = new List<string>(5);
         public void GetAvailableDisks()
         {
             string[] availableDisks = Directory.GetLogicalDrives();
@@ -35,12 +36,19 @@ namespace Disk_Monitoring
         }
         public  void WatcherChanged(object sender, FileSystemEventArgs e)
         {
-            Console.WriteLine($"Directory changed with path: {e.FullPath}\nType: {e.ChangeType}\nName: {e.Name}");
+            
             if (e.ChangeType == WatcherChangeTypes.Changed)
+            {              
+                if (!buffer.Contains(e.FullPath))
+                {                    
+                    new Thread(this.MonitoringDirectories).Start(e.FullPath);
+                }
+                buffer.Add(e.FullPath);
+
+            }
+            else
             {
-                PathIsChanged = true;
-                tempPath = e.FullPath;
-                new Thread(this.MonitoringDirectories).Start(this.tempPath);
+                Console.WriteLine($"Directory changed with path: {e.FullPath}\nType: {e.ChangeType}\nName: {e.Name}");
             }
         }
         public  void WatcherRenamed(object sender, RenamedEventArgs e)
@@ -90,14 +98,6 @@ namespace Disk_Monitoring
                 monitorer.GetGeneralInfo(diskPath);
                 monitorer.DiskMemoryLeft(diskPath);
                 new Thread(monitorer.MonitoringDirectories).Start(diskPath);
-                //new Thread(() =>
-                //{
-                //    if (monitorer.PathIsChanged)
-                //    {
-                //        new Thread(monitorer.MonitoringDirectories).Start(monitorer.tempPath);
-                //        monitorer.PathIsChanged = false;
-                //    }
-                //}).Start();
                 string userStop = Console.ReadLine();
                 if(userStop == "stop")
                 {

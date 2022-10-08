@@ -4,7 +4,6 @@
     {
         private static FileSystemWatcher watcher;
         private static int totalChanges = 0;
-
         public void GetAvailableDisks()
         {
             string[] availableDisks = Directory.GetLogicalDrives();
@@ -12,6 +11,34 @@
             foreach (var disk in availableDisks)
             {
                 Console.WriteLine(disk);
+            }
+        }
+        public void MemoryMonitoring(object pathObj)
+        {
+            string path = pathObj as string;
+            string pathRoot = Path.GetPathRoot(path);
+            var driveInfo = new DriveInfo(Path.GetPathRoot(pathRoot));
+            long driveSizeMb = driveInfo.AvailableFreeSpace / 1000; //kb
+            long temp;
+            while (true)
+            {
+                Thread.Sleep(4000);
+                temp = driveInfo.AvailableFreeSpace / 1000; //kb
+                if(driveSizeMb > temp)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(new String('*', 50));
+                    Console.WriteLine($"Memory of disk changed! ({pathRoot})  {temp - driveSizeMb}kb");
+                    Console.WriteLine(new String('*', 50));
+                }
+                else if(driveSizeMb < temp)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(new String('*', 50));
+                    Console.WriteLine($"Memory of disk changed! ({pathRoot}) + {temp - driveSizeMb}kb");
+                    Console.WriteLine(new String('*', 50));
+                }
+                driveSizeMb = temp;
             }
         }
 
@@ -158,6 +185,7 @@
             monitorer.MonitoringDirectories(diskPath);
             monitorer.GetGeneralInfo(diskPath);
             monitorer.DiskMemoryLeft(root);
+            new Thread(monitorer.MemoryMonitoring).Start(diskPath);
             Console.ReadLine();
         }
     }

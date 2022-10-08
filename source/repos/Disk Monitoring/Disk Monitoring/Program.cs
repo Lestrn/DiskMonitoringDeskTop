@@ -19,15 +19,16 @@
             ThreadParams parameters = pathObject as ThreadParams;
             FileSystemWatcher watcher = new FileSystemWatcher() { Path = parameters.Path };
             watcher.EnableRaisingEvents = _keepRun;
+            watcher.IncludeSubdirectories = true;
             watcher.Renamed += new RenamedEventHandler(parameters.RenamedEventHandler);
             watcher.Changed += new FileSystemEventHandler(parameters.FileSystemEventHandler);
             watcher.Created += new FileSystemEventHandler(parameters.FileSystemEventHandler);
             watcher.Deleted += new FileSystemEventHandler(parameters.FileSystemEventHandler);
+            GC.KeepAlive(watcher);
         }
     }
     class DiskMonitoring
     {
-        public string tempPath { get; private set; }
         public bool PathIsChanged { get; set; }
         private Dictionary<string, Thread> _threads = new Dictionary<string, Thread>(10);
         private Dictionary<string, ThreadMethod> _threadsMethods = new Dictionary<string, ThreadMethod>(10);
@@ -64,7 +65,7 @@
         }
         private bool IsFile(string path)
         {
-            bool isFile;
+            bool isFile = false;
             try                                                                 // Checking if path is directory or path 
             {
                 string[] subfolders = Directory.GetDirectories(path);
@@ -75,13 +76,18 @@
             {
                 isFile = true;
             }
+            catch(Exception)
+            {
+                
+            }
             return isFile;
         }
+         
         private void ThreadCreation(string pathNew, string pathOld = "")
         {
             string path = pathOld.Replace(@"\\", @"\");
             if (pathOld != "" && _threadsMethods.ContainsKey(pathOld)) // Killing Previous thread if it existed
-            {    
+            {
                 _oldPathes.Add(pathOld);
                 _threadsMethods[pathOld].KillThread();
                 _threads[pathOld].Join();
@@ -94,10 +100,6 @@
 
         public void WatcherChanged(object sender, FileSystemEventArgs e)
         {
-            if (_oldPathes.Contains(e.FullPath))
-            {
-                return;
-            }
             string path;
             if (_pathOldPathNew.ContainsKey(e.FullPath))
             {
@@ -115,9 +117,11 @@
                 }
                 else
                 {
-                    ThreadCreation(path);
+             //       ThreadCreation(path);
                 }
             }
+            Random random = new Random();
+            Console.ForegroundColor = (ConsoleColor)random.Next(1, 15);
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
                 bool isFile = IsFile(e.FullPath);
@@ -145,7 +149,8 @@
         }
         public void WatcherRenamed(object sender, RenamedEventArgs e)
         {
-     
+            Random random = new Random();
+            Console.ForegroundColor = (ConsoleColor)random.Next(1, 15);
             Console.WriteLine($"Directory was renamed old path: {e.OldFullPath}\n" +
                 $"New path  {e.FullPath}\n" +
                 $"Old path  {e.OldFullPath}\n" +
@@ -156,7 +161,7 @@
                 _savedFilePathes[e.OldFullPath] = e.FullPath;
                 return;
             }
-            ThreadCreation(e.FullPath, e.OldFullPath);
+          //  ThreadCreation(e.FullPath, e.OldFullPath);
             List<List<string>> directories = new List<List<string>>(10);
             directories.Add(Directory.GetDirectories(e.FullPath).ToList());
             for (int i = 0; i < directories.Count; i++)              // Checking all derictories
@@ -205,22 +210,26 @@
             Console.WriteLine($"Total disk space: {diskSizeMb}mb");
         }
 
+
     }
     class Program
     {
         private static void Main()
         {
-
             DiskMonitoring monitorer = new DiskMonitoring();
             monitorer.GetAvailableDisks();
-            Console.WriteLine("Welcome! which disk should I monitor?");
+            Console.WriteLine("Welcome! which disk should I monitor? or Enter q to quit");
             string diskPath = monitorer.GetPathFromUser();
+            string oldDiskPath = diskPath;
             monitorer.GetGeneralInfo(diskPath);
             monitorer.DiskMemoryLeft(diskPath);
             ThreadMethod threadMethod = new ThreadMethod();
             ThreadParams threadParams = new ThreadParams() { FileSystemEventHandler = monitorer.WatcherChanged, Path = diskPath, RenamedEventHandler = monitorer.WatcherRenamed };
-            new Thread(threadMethod.MonitoringDirectories).Start(threadParams);
-            Console.ReadLine();
+            Thread enteringThead = new Thread(threadMethod.MonitoringDirectories);
+            enteringThead.Start(threadParams);
+            Console.ReadKey();
         }
     }
+
 }
+           

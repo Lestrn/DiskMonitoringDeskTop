@@ -29,12 +29,11 @@
     {
         public string tempPath { get; private set; }
         public bool PathIsChanged { get; set; }
-        private List<string> buffer = new List<string>(5);
         private Dictionary<string, Thread> _threads = new Dictionary<string, Thread>(10);
         private Dictionary<string, ThreadMethod> _threadsMethods = new Dictionary<string, ThreadMethod>(10);
         private Dictionary<string, string> _pathOldPathNew = new Dictionary<string, string>(10);
         private Dictionary<string, string> _savedFilePathes = new Dictionary<string, string>(10);
-        private string[] allPathesAfterRenamed;
+        private List<string> _oldPathes = new List<string>(10);
 
         public void GetAvailableDisks()
         {
@@ -81,20 +80,24 @@
         private void ThreadCreation(string pathNew, string pathOld = "")
         {
             string path = pathOld.Replace(@"\\", @"\");
-            if (pathOld != "") // Killing Previous thread if it existed
-            {               
+            if (pathOld != "" && _threadsMethods.ContainsKey(pathOld)) // Killing Previous thread if it existed
+            {    
+                _oldPathes.Add(pathOld);
                 _threadsMethods[pathOld].KillThread();
-               // _threads[pathOld].Join();
-               
+                _threads[pathOld].Join();
             }
             ThreadParams parameters = new ThreadParams() { FileSystemEventHandler = WatcherChanged, Path = pathNew, RenamedEventHandler = WatcherRenamed };
             _threadsMethods[pathNew] = new ThreadMethod();
-            Thread thread = new Thread(_threadsMethods[pathNew].MonitoringDirectories);
-            thread.Start(parameters);
+            _threads[pathNew] = new Thread(_threadsMethods[pathNew].MonitoringDirectories);
+            _threads[pathNew].Start(parameters);
         }
 
         public void WatcherChanged(object sender, FileSystemEventArgs e)
         {
+            if (_oldPathes.Contains(e.FullPath))
+            {
+                return;
+            }
             string path;
             if (_pathOldPathNew.ContainsKey(e.FullPath))
             {
@@ -156,11 +159,14 @@
             ThreadCreation(e.FullPath, e.OldFullPath);
             List<List<string>> directories = new List<List<string>>(10);
             directories.Add(Directory.GetDirectories(e.FullPath).ToList());
-            for (int i = 0; i < directories.Count; i++)
+            for (int i = 0; i < directories.Count; i++)              // Checking all derictories
             {
                 for (int j = 0; j < directories[i].Count; j++)
                 {
-                    directories.Add(Directory.GetDirectories(directories[i][j]).ToList());
+                    if (!IsFile(directories[i][j]))
+                    {
+                        directories.Add(Directory.GetDirectories(directories[i][j]).ToList());
+                    }
                 }
             }
             foreach (var item in directories)
@@ -215,7 +221,6 @@
             ThreadParams threadParams = new ThreadParams() { FileSystemEventHandler = monitorer.WatcherChanged, Path = diskPath, RenamedEventHandler = monitorer.WatcherRenamed };
             new Thread(threadMethod.MonitoringDirectories).Start(threadParams);
             Console.ReadLine();
-
         }
     }
 }

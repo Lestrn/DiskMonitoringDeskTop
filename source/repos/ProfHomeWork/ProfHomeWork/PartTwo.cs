@@ -44,20 +44,9 @@ namespace ProfHomeWork
 
         public int Add(object value)
         {
-            //1.Добавление элемента в коллекцию.
-            //1) Можно добавлять только Гражданина.
-            //2) При добавлении, элемент добавляется в конец коллекции. Если Пенсионер, – то в
-            //начало с учетом ранее стоящих Пенсионеров. Возвращается номер в очереди.
-            //3) При добавлении одного и того же человека (проверка на равенство по номеру
-            //паспорта, необходимо переопределить метод Equals и/или операторы равенства для
-            //сравнения объектов по номеру паспорта) элемент не добавляется, выдается
-            //сообщение.
-            if(value is Citizen)
+            if(value is not Citizen)
             {
-                
-            }
-            else
-            {
+                Console.WriteLine("Object is not Citizen!");
                 return 0;
             }
             for (int i = 0; i < _citizens.Length; i++)
@@ -66,8 +55,7 @@ namespace ProfHomeWork
                 {
                     Console.WriteLine("Cant add same Citizen!");
                     return 0;
-                }
-                    
+                }        
             }
                         
             bool isAdded = false;
@@ -83,11 +71,7 @@ namespace ProfHomeWork
                         isAdded = true;
                         break;
                     }
-                    if (_citizens[i] is Pensioner)
-                    {
-                        continue;
-                    }
-                    else
+                    if (_citizens[i] is not Pensioner)
                     {
                         tempCitizen = _citizens[i];
                         _citizens[i] = value;

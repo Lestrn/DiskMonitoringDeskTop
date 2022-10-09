@@ -88,20 +88,72 @@ namespace ProfHomeWork
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Test part 2");
             Citizen citizens = new Pensioner();
-            for (int i = 0; i < 15; i++)
+            Student[] students = new Student[15];
+            Worker[] workers = new Worker[15];
+            string[] names = new string[]
+            {   "Aaran",
+                "Aaren", "Aarez", "Aarman", "Aaron",
+                "Aaron-James", "Aarron", "Aaryan", "Aaryn",
+                "Aayan", "Aazaan", "Abaan", "Abbas",
+                "Abdallah", "Abdalroof", "Abdihakim",
+                "Abdirahman", "Abdisalam", "Abdul",
+                "Abdul-Aziz", "Abdulbasir", "Abdulkadir",
+                "Abdulkarem", "Abdulkhader", "Abdullah",
+                "Abdul-Majeed", "Abdulmalik", "Abdul-Rehman",
+                "Abdur", "Abdurraheem", "Abdur-Rahman",
+                "Abdur-Rehmaan", "Abel", "Abhinav",
+                "Abhisumant", "Abid", "Abir",
+                "Abraham", "Abu", "Abubakar",
+                "Ace", "Adain", "Adam",
+                "Adam-James", "Addison", "Addisson",
+                "Adegbola", "Adegbolahan", "Aden",
+                "Adenn", "Adie", "Adil", "Aditya",
+                "Adnan", "Adrian", "Adrien", "Aedan", "Aedin",
+                "Aedyn", "Aeron", "Afonso", "Ahmad", "Ahmed", "Ahmed-Aziz",
+                "Ahoua", "Ahtasham", "Aiadan", "Aidan", "Aiden", "Aiden-Jack",
+                "Aiden-Vee", "Aidian", "Aidy", "Ailin", "Aiman", "Ainsley", "Ainslie",
+                "Airen", "Airidas", "Airlie", "AJ", "Ajay", "A-Jay", "Ajayraj", "Akan",
+                "Akram", "Al", "Ala", "Alan", "Alanas", "Alasdair", "Alastair", "Alber",
+                "Albert", "Albie", "Aldred", "Alec", "Aled", "Aleem", "Aleksandar",
+                "Aleksander", "Aleksandr", "Aleksandrs", "Alekzander", "Alessandro",
+                "Alessio", "Alex", "Alexander", "Alexei", "Alexx", "Alexzander",
+                "Alf", "Alfee", "Alfie", "Alfred", "Alfy", "Alhaji", "Al-Hassan",
+                "Ali", "Aliekber", "Alieu", "Alihaider", "Alisdair", "Alishan",
+                "Alistair", "Alistar", "Alister", "Aliyaan", "Allan", "Allan-Laiton",
+                "Allen", "Allesandro", "Allister", "Ally", "Alphonse", "Altyiab", "Alum",
+                "Alvern", "Alvin", "Alyas", "Amaan", "Aman", "Amani", "Ambanimoh", "Ameer",
+                "Amgad", "Ami", "Amin", "Amir", "Ammaar", "Ammar", "Ammer",
+                "Amolpreet", "Amos", "Amrinder", "Amrit", "Amro", "Anay",
+                "Andrea", "Andreas", "Andrei", "Andrejs", "Andrew",
+                "Andy", "Anees", "Anesu", "Angel", "Angelo", "Angus", "Anir", "Anis", "Anish", "Anmolpreet", "Annan" };
+            Random rand = new Random();
+
+            citizens.Add(new Student() {Name = "LESTRNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN IS FIRST" } );
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            for (int i = 0; i < students.Length; i++)
             {
-                citizens.Add(new Student() { Name = "Baran"});
+                students[i] = new Student();
+                students[i].Name = names[rand.Next(0, names.Length - 1)];
             }
-            citizens.Add(new Pensioner() { Name = "Babulya"});
-            citizens.Add(new Pensioner() { Name = "Babka" });
-            citizens.Add(new Worker() { Name = "Worker" });
-            citizens.Insert(7, new Worker() { Name = "Inserted Worker" });
-           // citizens.RemoveAt(0);
-            citizens.Remove(citizens[1]);
+            for (int i = 0; i < workers.Length; i++)
+            {
+                workers[i] = new Worker();
+                workers[i].Name = names[rand.Next(0, names.Length - 1)];
+            }
+            for (int i = 0; i < students.Length; i++)
+            {
+                citizens.Add(workers[i]);
+                citizens.Add(students[i]);
+            }
+           citizens.Add(new Pensioner() { Name = "AmericanBABKA" });
+           citizens.Add(new Pensioner() { Name = "BABKA229" });
             foreach (var item in citizens)
             {
                 Console.WriteLine(item.ToString());
             }
+            citizens.Add(workers[5]);
+            citizens.Add(new object());
+            Console.ResetColor();
 
         }
     }

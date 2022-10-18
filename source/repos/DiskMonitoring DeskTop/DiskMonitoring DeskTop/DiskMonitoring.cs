@@ -131,12 +131,13 @@ namespace DiskMonitoring_DeskTop
         }
         public void MemoryMonitoring(object pathObj)
         {
-            string path = pathObj as string;
+            ParamsMemoryMonitoring parameters = pathObj as ParamsMemoryMonitoring;
+            string path = parameters.Path;
             string pathRoot = Path.GetPathRoot(path);
             var driveInfo = new DriveInfo(Path.GetPathRoot(pathRoot));
             long driveSizeMb = driveInfo.AvailableFreeSpace / 1000; //kb
             long temp;
-            while (true)
+            while (parameters.KeepRun)
             {
                 Thread.Sleep(4000);
                 temp = driveInfo.AvailableFreeSpace / 1000; //kb

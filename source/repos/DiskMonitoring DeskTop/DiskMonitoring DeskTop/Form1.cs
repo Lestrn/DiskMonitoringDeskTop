@@ -14,8 +14,10 @@ namespace DiskMonitoring_DeskTop
   
     public partial class DiskMonitoring : Form
     {
-        string path;
-        bool memoryIsRunning;
+        private string path;
+        private bool keepRun = true;
+        private static Thread monitorMemory;
+        private static ParamsMemoryMonitoring paramsMemory = new ParamsMemoryMonitoring();
         public DiskMonitoring()
         {
             InitializeComponent();
@@ -29,24 +31,37 @@ namespace DiskMonitoring_DeskTop
         private void FileChangesShowInfo()
         {
             path = GetPathFromUser();
-            MonitoringDirectories(path);
-            
-
+            MonitoringDirectories(path);            
         }
         private void MemoryChangesBtn_Click(object sender, EventArgs e)
         {
-            MemoryChangesStart();
+            if (keepRun)
+            {
+                MemoryChangesStart();
+                return;
+            }
+            MemoryChangesStop();
+           
         }
         private void MemoryChangesStart()
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                path = GetPathFromUser();
+            }                
+            keepRun = false;      
             MemoryChangesLabel.ResetText();
-            Thread monitorMemory = new Thread(MemoryMonitoring);
-            monitorMemory.Start(path);
-            memoryIsRunning = true;
+            monitorMemory = new Thread(MemoryMonitoring);
+            paramsMemory.Path = path;
+            paramsMemory.KeepRun = true;
+            monitorMemory.Start(paramsMemory);
+            MemoryChangesBtn.Text = "Stop Monitoring";
         }
         private void MemoryChangesStop()
         {
-
+            keepRun = true;
+            paramsMemory.KeepRun = false;
+            MemoryChangesBtn.Text = "Start Monitoring";
         }
     }
 }

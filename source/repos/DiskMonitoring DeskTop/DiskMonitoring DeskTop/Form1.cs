@@ -72,6 +72,7 @@ namespace DiskMonitoring_DeskTop
             paramsMemory.Path = path;
             paramsMemory.KeepRun = true;
             monitorMemory.Start(paramsMemory);
+            monitorMemory.IsBackground = true;
             MemoryChangesBtn.Text = "Stop Monitoring";
         }
         private void StopMemoryChanges()
@@ -100,7 +101,6 @@ namespace DiskMonitoring_DeskTop
             {
                 StopMemoryChanges();
             }
-           
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Drawing;
 
 namespace DiskMonitoring_DeskTop
 {
-    delegate void SetTextCallback(string text, bool isMemory);
+    delegate void SetTextCallback(string text);
     public partial class DiskMonitoring : Form
     {
         private static FileSystemWatcher watcher;
@@ -34,43 +34,37 @@ namespace DiskMonitoring_DeskTop
             }
             return isFile;
         }
-        private void Printer(string text, bool isMemory = false)
+        private void PrinterFileChange(string text)
         {
-            
-            switch (isMemory)
+            if (this.FileChangesLable.InvokeRequired)
             {
-                case false:
-                   
-                    if (this.FileChangesLable.InvokeRequired)
-                    {
-                        SetTextCallback d = new SetTextCallback(Printer);
-                        this.Invoke(d, new object[] { text, false });
-                    }
-                    else
-                    {                     
-                        text += $"\nTime: {DateTime.Now}";
-                        text += $"\nUser: {Environment.UserName}\n\n";
-                        FileChangesLable.Text += text;
-                        flowLayoutPanel1.AutoScrollPosition = new System.Drawing.Point(flowLayoutPanel1.HorizontalScroll.Maximum, flowLayoutPanel1.VerticalScroll.Maximum);
-                        LogTXT(text, LogFileChanges, "LogFileChanges.txt");
-                    }
-                    break;
-                case true:
-                    if (this.MemoryChangesLabel.InvokeRequired)
-                    {
-                        SetTextCallback d = new SetTextCallback(Printer);
-                        this.Invoke(d, new object[] { text, true });
-                    }
-                    else
-                    {
-                        text += "\n";
-                        MemoryChangesLabel.Text += text;
-                        flowLayoutPanel2.AutoScrollPosition = new System.Drawing.Point(flowLayoutPanel2.HorizontalScroll.Maximum, flowLayoutPanel2.VerticalScroll.Maximum);
-                        LogTXT(text, logMemoryChanges, "LogMemoryChanges.txt");
-                    }
-                    break;
-            }     
-        } 
+                SetTextCallback d = new SetTextCallback(PrinterFileChange);
+                this.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                text += $"\nTime: {DateTime.Now}";
+                text += $"\nUser: {Environment.UserName}\n\n";
+                FileChangesLable.Text += text;
+                flowLayoutPanel1.AutoScrollPosition = new System.Drawing.Point(flowLayoutPanel1.HorizontalScroll.Minimum, flowLayoutPanel1.VerticalScroll.Maximum);
+                LogTXT(text, LogFileChanges, "LogFileChanges.txt");
+            }
+        }
+        private void PrinterMemory(string text)
+        {
+            if (this.MemoryChangesLabel.InvokeRequired)
+            {
+                SetTextCallback d = new SetTextCallback(PrinterMemory);
+                this.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                text += "\n";
+                MemoryChangesLabel.Text += text;
+                flowLayoutPanel2.AutoScrollPosition = new System.Drawing.Point(flowLayoutPanel2.HorizontalScroll.Minimum, flowLayoutPanel2.VerticalScroll.Maximum);
+                LogTXT(text, logMemoryChanges, "LogMemoryChanges.txt");
+            }
+        }
         private void LogTXT(string text, CheckBox checkBox, string path)
         {
             if (!checkBox.Checked)
@@ -81,21 +75,21 @@ namespace DiskMonitoring_DeskTop
         }
         private void MemoryMonitoringAddon(string pathRoot, long temp, long driveSizeMb)
         {
-            Printer(new String('*', 50), true);
+            PrinterMemory(new String('*', 50));
             if (temp > driveSizeMb)
-            {                             
-                Printer($"Memory of disk changed! ({pathRoot})\nTotal memory space + {temp - driveSizeMb}kb", true);                                
+            {
+                PrinterMemory($"Memory of disk changed! ({pathRoot})\nTotal free memory space + {temp - driveSizeMb}kb");
             }
             else if (temp < driveSizeMb)
             {
-                Printer($"Memory of disk changed! ({pathRoot})\nTotal memory space  {temp - driveSizeMb}kb", true);
+                PrinterMemory($"Memory of disk changed! ({pathRoot})\nTotal free memory space  {temp - driveSizeMb}kb");
             }
             else
             {
-                Printer("No changes was found", true);
+                PrinterMemory("No changes was found");
             }
-            Printer($"{DateTime.Now}", true);
-            Printer(new String('*', 50), true);
+            PrinterMemory($"{DateTime.Now}");
+            PrinterMemory(new String('*', 50));
         }
         private void WatcherChanged(object sender, FileSystemEventArgs e)
         {
@@ -107,33 +101,33 @@ namespace DiskMonitoring_DeskTop
 
                 if (isFile)
                 {
-                    Printer($"File was changed! Path: {e.FullPath} Name:{e.Name}");
+                    PrinterFileChange($"File was changed! Path: {e.FullPath} Name:{e.Name}");
                     FileInfo fileInfo = new FileInfo(e.FullPath);
                     try
                     {
-                        Printer($"Size of file {fileInfo.Length / 1024}kb");
+                        PrinterFileChange($"Size of file {fileInfo.Length / 1024}kb");
                     }
                     catch
                     {
-                        Printer($"Accsess to file was denied!, {e.FullPath}");
+                        PrinterFileChange($"Accsess to file was denied!, {e.FullPath}");
                     }
                 }
             }
             else
             {
-                Printer($"Directory changed with path: {e.FullPath}\nType: {e.ChangeType}\nName: {e.Name}");
+                PrinterFileChange($"Directory changed with path: {e.FullPath}\nType: {e.ChangeType}\nName: {e.Name}");
 
             }
         }
         private void Watcher_Error(object sender, ErrorEventArgs e)
         {
             Exception ex = e.GetException();
-            Printer(ex.Message);
+            PrinterFileChange(ex.Message);
         }
         private void WatcherRenamed(object sender, RenamedEventArgs e)
         {
             Random random = new Random();
-            Printer($"Directory was renamed old path: {e.OldFullPath}\n" +
+            PrinterFileChange($"Directory was renamed old path: {e.OldFullPath}\n" +
                 $"New path  {e.FullPath}\n" +
                 $"Old path  {e.OldFullPath}\n" +
                 $"Old Name: {e.OldName}\n" +
@@ -142,10 +136,10 @@ namespace DiskMonitoring_DeskTop
         public void GetAvailableDisks()
         {
             string[] availableDisks = Directory.GetLogicalDrives();
-            Printer("Available disks");
+            PrinterFileChange("Available disks");
             foreach (var disk in availableDisks)
             {
-                Printer(disk);
+                PrinterFileChange(disk);
             }
         }
         public void MemoryMonitoring(object pathObj)
@@ -177,7 +171,7 @@ namespace DiskMonitoring_DeskTop
                     {
                         diskPath = fbd.SelectedPath;
                         break;
-                    }                
+                    }
                 }
             }
             FileChangesLable.ResetText();

@@ -15,7 +15,8 @@ namespace DiskMonitoring_DeskTop
     public partial class DiskMonitoring : Form
     {
         private string path;
-        private bool keepRun = true;
+        private bool keepMemoryMonitoringRun = true;
+        private bool keepDiskMonitoringRun = true;
         private static Thread monitorMemory;
         private static ParamsMemoryMonitoring paramsMemory = new ParamsMemoryMonitoring();
         public DiskMonitoring()
@@ -26,16 +27,36 @@ namespace DiskMonitoring_DeskTop
         
         private void FileChangesBtn_Click(object sender, EventArgs e)
         {
-            FileChangesShowInfo();
+            if (keepDiskMonitoringRun)
+            {
+                StartMonitoringChanges();
+                return;
+            }
+            StopMonitoringChanges();
+      
         }
-        private void FileChangesShowInfo()
+        private void StartMonitoringChanges()
         {
-            path = GetPathFromUser();
-            MonitoringDirectories(path);            
+            if (string.IsNullOrEmpty(path))
+            {
+                path = GetPathFromUser();
+            }
+            KeepWatch = true;
+            MonitoringDirectories(path);
+            watcher.EnableRaisingEvents = KeepWatch;
+            FileChangesBtn.Text = "Stop Monitoring";
+            keepDiskMonitoringRun = false;
+        }
+        private void StopMonitoringChanges()
+        {
+            KeepWatch = false;
+            watcher.EnableRaisingEvents = KeepWatch;
+            FileChangesBtn.Text = "Start Monitoring";
+            keepDiskMonitoringRun = true;
         }
         private void MemoryChangesBtn_Click(object sender, EventArgs e)
         {
-            if (keepRun)
+            if (keepMemoryMonitoringRun)
             {
                 MemoryChangesStart();
                 return;
@@ -49,7 +70,7 @@ namespace DiskMonitoring_DeskTop
             {
                 path = GetPathFromUser();
             }                
-            keepRun = false;      
+            keepMemoryMonitoringRun = false;      
             MemoryChangesLabel.ResetText();
             monitorMemory = new Thread(MemoryMonitoring);
             paramsMemory.Path = path;
@@ -59,9 +80,18 @@ namespace DiskMonitoring_DeskTop
         }
         private void MemoryChangesStop()
         {
-            keepRun = true;
+            keepMemoryMonitoringRun = true;
             paramsMemory.KeepRun = false;
             MemoryChangesBtn.Text = "Start Monitoring";
+        }
+
+        private void currentPathUsedLabel_Click(object sender, EventArgs e)
+        {
+            path = GetPathFromUser();
+            if(watcher != null)
+            {
+                StopMonitoringChanges();
+            }
         }
     }
 }

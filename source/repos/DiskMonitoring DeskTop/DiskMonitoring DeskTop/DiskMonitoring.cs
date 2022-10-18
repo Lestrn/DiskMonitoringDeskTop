@@ -12,6 +12,7 @@ namespace DiskMonitoring_DeskTop
     public partial class DiskMonitoring : Form
     {
         private static FileSystemWatcher watcher;
+        public bool KeepWatch { get; set; } = true;
         private bool IsFile(string path)
         {
             bool isFile = false;
@@ -162,38 +163,38 @@ namespace DiskMonitoring_DeskTop
                 }
             }
             FileChangesLable.ResetText();
-            GetGeneralInfo(diskPath);
-            DiskMemoryLeft(diskPath);
+            currentPathUsedLabel.ResetText();
+            currentPathUsedLabel.Text = $"Current path used: {diskPath}";
+            currentPathUsedLabel.Text +=$"\n{GetGeneralInfo(diskPath)}";
+            currentPathUsedLabel.Text += $"\n{DiskMemoryLeft(diskPath)}";
             return diskPath;
         }
-        public void DiskMemoryLeft(string diskPath)
+        public string DiskMemoryLeft(string diskPath)
         {
             var drive = new DriveInfo(diskPath);
             if (!drive.IsReady)
             {
-                return;
+                return "Disk is not ready!";
             }
             long diskSizeLeftByte = drive.AvailableFreeSpace;
             int diskSizeLeftMb = (int)(diskSizeLeftByte / 1048576);
-            Printer($"Total disk space left: {diskSizeLeftMb}mb");
+            return $"Total disk space left: {diskSizeLeftMb}mb";
         }
-        public void GetGeneralInfo(string diskPath)
+        public string GetGeneralInfo(string diskPath)
         {
             var drive = new DriveInfo(Path.GetPathRoot(diskPath));
             if (!drive.IsReady)
             {
-                Printer("Disk is not ready");
-                return;
+                return "Disk is not ready";
             }
             long diskSizeByte = drive.TotalSize;
             int diskSizeMb = (int)(diskSizeByte / 1048576);
-            Printer($"Ok i will be monitoring {diskPath}");
-            Printer($"Total disk space ({Path.GetPathRoot(diskPath)}): {diskSizeMb}mb");
+            return $"\nTotal disk space ({Path.GetPathRoot(diskPath)}): {diskSizeMb}mb";
         }
         public void MonitoringDirectories(string path)
         {
             watcher = new FileSystemWatcher() { Path = path };
-            watcher.EnableRaisingEvents = true;
+            watcher.EnableRaisingEvents = KeepWatch;
             watcher.IncludeSubdirectories = true;
             watcher.Renamed += new RenamedEventHandler(WatcherRenamed);
             watcher.Changed += new FileSystemEventHandler(WatcherChanged);

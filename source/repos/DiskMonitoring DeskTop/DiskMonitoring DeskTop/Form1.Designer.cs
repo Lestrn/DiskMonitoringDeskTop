@@ -40,8 +40,11 @@ namespace DiskMonitoring_DeskTop
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.FileChangesLable = new System.Windows.Forms.Label();
+            this.currentPathUsedLabel = new System.Windows.Forms.Label();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // MemoryChangesLabel
@@ -57,7 +60,7 @@ namespace DiskMonitoring_DeskTop
             // logMemoryChanges
             // 
             this.logMemoryChanges.AutoSize = true;
-            this.logMemoryChanges.Location = new System.Drawing.Point(542, 112);
+            this.logMemoryChanges.Location = new System.Drawing.Point(1003, 93);
             this.logMemoryChanges.Name = "logMemoryChanges";
             this.logMemoryChanges.Size = new System.Drawing.Size(176, 20);
             this.logMemoryChanges.TabIndex = 2;
@@ -67,7 +70,7 @@ namespace DiskMonitoring_DeskTop
             // LogFileChanges
             // 
             this.LogFileChanges.AutoSize = true;
-            this.LogFileChanges.Location = new System.Drawing.Point(16, 112);
+            this.LogFileChanges.Location = new System.Drawing.Point(12, 67);
             this.LogFileChanges.Name = "LogFileChanges";
             this.LogFileChanges.Size = new System.Drawing.Size(123, 20);
             this.LogFileChanges.TabIndex = 3;
@@ -76,7 +79,7 @@ namespace DiskMonitoring_DeskTop
             // 
             // FileChangesBtn
             // 
-            this.FileChangesBtn.Location = new System.Drawing.Point(12, 147);
+            this.FileChangesBtn.Location = new System.Drawing.Point(12, 119);
             this.FileChangesBtn.Name = "FileChangesBtn";
             this.FileChangesBtn.Size = new System.Drawing.Size(141, 23);
             this.FileChangesBtn.TabIndex = 5;
@@ -86,7 +89,7 @@ namespace DiskMonitoring_DeskTop
             // 
             // MemoryChangesBtn
             // 
-            this.MemoryChangesBtn.Location = new System.Drawing.Point(542, 147);
+            this.MemoryChangesBtn.Location = new System.Drawing.Point(1038, 119);
             this.MemoryChangesBtn.Name = "MemoryChangesBtn";
             this.MemoryChangesBtn.Size = new System.Drawing.Size(141, 23);
             this.MemoryChangesBtn.TabIndex = 6;
@@ -98,7 +101,7 @@ namespace DiskMonitoring_DeskTop
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("MS Reference Sans Serif", 13.8F);
-            this.label3.Location = new System.Drawing.Point(9, 45);
+            this.label3.Location = new System.Drawing.Point(15, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(151, 28);
             this.label3.TabIndex = 7;
@@ -108,7 +111,7 @@ namespace DiskMonitoring_DeskTop
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("MS Reference Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(539, 45);
+            this.label4.Location = new System.Drawing.Point(1074, 12);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(105, 28);
             this.label4.TabIndex = 8;
@@ -118,9 +121,9 @@ namespace DiskMonitoring_DeskTop
             // 
             this.flowLayoutPanel2.AutoScroll = true;
             this.flowLayoutPanel2.Controls.Add(this.MemoryChangesLabel);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(508, 195);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(584, 148);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(530, 254);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(595, 301);
             this.flowLayoutPanel2.TabIndex = 10;
             // 
             // flowLayoutPanel1
@@ -128,9 +131,9 @@ namespace DiskMonitoring_DeskTop
             this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.FileChangesLable);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 195);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 148);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(490, 254);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(565, 301);
             this.flowLayoutPanel1.TabIndex = 11;
             // 
             // FileChangesLable
@@ -143,13 +146,34 @@ namespace DiskMonitoring_DeskTop
             this.FileChangesLable.TabIndex = 1;
             this.FileChangesLable.Text = "No Info yet";
             // 
+            // currentPathUsedLabel
+            // 
+            this.currentPathUsedLabel.AutoSize = true;
+            this.currentPathUsedLabel.Font = new System.Drawing.Font("MS Reference Sans Serif", 13.8F);
+            this.currentPathUsedLabel.Location = new System.Drawing.Point(3, 0);
+            this.currentPathUsedLabel.Name = "currentPathUsedLabel";
+            this.currentPathUsedLabel.Size = new System.Drawing.Size(302, 28);
+            this.currentPathUsedLabel.TabIndex = 12;
+            this.currentPathUsedLabel.Text = "Current path used: None";
+            this.currentPathUsedLabel.Click += new System.EventHandler(this.currentPathUsedLabel_Click);
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.AutoScroll = true;
+            this.flowLayoutPanel3.Controls.Add(this.currentPathUsedLabel);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(237, 12);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(735, 120);
+            this.flowLayoutPanel3.TabIndex = 13;
+            // 
             // DiskMonitoring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1076, 500);
+            this.ClientSize = new System.Drawing.Size(1191, 502);
+            this.Controls.Add(this.flowLayoutPanel3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.label3);
@@ -164,6 +188,8 @@ namespace DiskMonitoring_DeskTop
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,6 +208,8 @@ namespace DiskMonitoring_DeskTop
         private FlowLayoutPanel flowLayoutPanel2;
         private FlowLayoutPanel flowLayoutPanel1;
         private Label FileChangesLable;
+        private Label currentPathUsedLabel;
+        private FlowLayoutPanel flowLayoutPanel3;
     }
 }
 

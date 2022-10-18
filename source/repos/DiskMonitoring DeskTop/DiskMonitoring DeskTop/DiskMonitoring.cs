@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Principal;
 namespace DiskMonitoring_DeskTop
 {
     delegate void SetTextCallback(string text, bool isMemory);
     public partial class DiskMonitoring : Form
     {
         private static FileSystemWatcher watcher;
+        private string pathToLog;
         public bool KeepWatch { get; set; } = true;
         private bool IsFile(string path)
         {
@@ -33,19 +35,23 @@ namespace DiskMonitoring_DeskTop
         }
         private void Printer(string text, bool isMemory = false)
         {
-            text += "\n";
+            
             switch (isMemory)
             {
                 case false:
+                   
                     if (this.FileChangesLable.InvokeRequired)
                     {
                         SetTextCallback d = new SetTextCallback(Printer);
                         this.Invoke(d, new object[] { text, false });
                     }
                     else
-                    {
+                    {                     
+                        text += $"\nTime: {DateTime.Now}";
+                        text += $"\nUser: {Environment.UserName}\n\n";
                         FileChangesLable.Text += text;
                         flowLayoutPanel1.AutoScrollPosition = new System.Drawing.Point(flowLayoutPanel1.HorizontalScroll.Maximum, flowLayoutPanel1.VerticalScroll.Maximum);
+                        LogTXT(text, LogFileChanges, "LogFileChanges.txt");
                     }
                     break;
                 case true:
@@ -56,13 +62,22 @@ namespace DiskMonitoring_DeskTop
                     }
                     else
                     {
+                        text += "\n";
                         MemoryChangesLabel.Text += text;
                         flowLayoutPanel2.AutoScrollPosition = new System.Drawing.Point(flowLayoutPanel2.HorizontalScroll.Maximum, flowLayoutPanel2.VerticalScroll.Maximum);
+                        LogTXT(text, logMemoryChanges, "LogMemoryChanges.txt");
                     }
                     break;
-            }
-     
+            }     
         } 
+        private void LogTXT(string text, CheckBox checkBox, string path)
+        {
+            if (!checkBox.Checked)
+            {
+                return;
+            }
+            File.AppendAllText(path, text);
+        }
         private void MemoryMonitoringAddon(string pathRoot, long temp, long driveSizeMb)
         {
             if (temp > driveSizeMb)
@@ -163,9 +178,8 @@ namespace DiskMonitoring_DeskTop
                 }
             }
             FileChangesLable.ResetText();
-            currentPathUsedLabel.ResetText();
             currentPathUsedLabel.Text = $"Current path used: {diskPath}";
-            currentPathUsedLabel.Text +=$"\n{GetGeneralInfo(diskPath)}";
+            currentPathUsedLabel.Text += $"\n{GetGeneralInfo(diskPath)}";
             currentPathUsedLabel.Text += $"\n{DiskMemoryLeft(diskPath)}";
             return diskPath;
         }

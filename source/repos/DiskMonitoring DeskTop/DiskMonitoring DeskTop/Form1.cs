@@ -22,9 +22,7 @@ namespace DiskMonitoring_DeskTop
         public DiskMonitoring()
         {
             InitializeComponent();
-        }
-
-        
+        }        
         private void FileChangesBtn_Click(object sender, EventArgs e)
         {
             if (keepDiskMonitoringRun)
@@ -32,8 +30,7 @@ namespace DiskMonitoring_DeskTop
                 StartMonitoringChanges();
                 return;
             }
-            StopMonitoringChanges();
-      
+            StopMonitoringChanges();      
         }
         private void StartMonitoringChanges()
         {
@@ -61,8 +58,7 @@ namespace DiskMonitoring_DeskTop
                 MemoryChangesStart();
                 return;
             }
-            MemoryChangesStop();
-           
+            StopMemoryChanges();          
         }
         private void MemoryChangesStart()
         {
@@ -78,7 +74,7 @@ namespace DiskMonitoring_DeskTop
             monitorMemory.Start(paramsMemory);
             MemoryChangesBtn.Text = "Stop Monitoring";
         }
-        private void MemoryChangesStop()
+        private void StopMemoryChanges()
         {
             keepMemoryMonitoringRun = true;
             paramsMemory.KeepRun = false;
@@ -92,6 +88,19 @@ namespace DiskMonitoring_DeskTop
             {
                 StopMonitoringChanges();
             }
+        }
+
+        private void DiskMonitoring_Closed(object sender, System.EventArgs e)
+        {
+            if (keepMemoryMonitoringRun && watcher != null) // Closing all threads after program was closed  if they were opened
+            {
+                StopMonitoringChanges();
+            }
+            if (keepDiskMonitoringRun)
+            {
+                StopMemoryChanges();
+            }
+           
         }
     }
 }

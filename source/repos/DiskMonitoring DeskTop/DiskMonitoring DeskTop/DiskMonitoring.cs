@@ -7,13 +7,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Principal;
+using System.Drawing;
+
 namespace DiskMonitoring_DeskTop
 {
     delegate void SetTextCallback(string text, bool isMemory);
     public partial class DiskMonitoring : Form
     {
         private static FileSystemWatcher watcher;
-        private string pathToLog;
         public bool KeepWatch { get; set; } = true;
         private bool IsFile(string path)
         {
@@ -80,19 +81,21 @@ namespace DiskMonitoring_DeskTop
         }
         private void MemoryMonitoringAddon(string pathRoot, long temp, long driveSizeMb)
         {
+            Printer(new String('*', 50), true);
             if (temp > driveSizeMb)
-            {
-                Printer(new String('*', 50), true);
-                Printer($"Memory of disk changed! ({pathRoot})\nTotal memory space + {temp - driveSizeMb}kb", true);
-                Printer(new String('*', 50), true);
-                
+            {                             
+                Printer($"Memory of disk changed! ({pathRoot})\nTotal memory space + {temp - driveSizeMb}kb", true);                                
             }
             else if (temp < driveSizeMb)
             {
-                Printer(new String('*', 50), true);
                 Printer($"Memory of disk changed! ({pathRoot})\nTotal memory space  {temp - driveSizeMb}kb", true);
-                Printer(new String('*', 50), true);
             }
+            else
+            {
+                Printer("No changes was found", true);
+            }
+            Printer($"{DateTime.Now}", true);
+            Printer(new String('*', 50), true);
         }
         private void WatcherChanged(object sender, FileSystemEventArgs e)
         {
@@ -217,6 +220,5 @@ namespace DiskMonitoring_DeskTop
             watcher.Error += Watcher_Error;
             GC.KeepAlive(watcher);
         }
-
     }
 }

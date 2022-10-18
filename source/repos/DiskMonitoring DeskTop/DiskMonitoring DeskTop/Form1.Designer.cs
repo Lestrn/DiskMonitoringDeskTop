@@ -60,7 +60,7 @@ namespace DiskMonitoring_DeskTop
             // logMemoryChanges
             // 
             this.logMemoryChanges.AutoSize = true;
-            this.logMemoryChanges.Location = new System.Drawing.Point(1003, 93);
+            this.logMemoryChanges.Location = new System.Drawing.Point(1003, 67);
             this.logMemoryChanges.Name = "logMemoryChanges";
             this.logMemoryChanges.Size = new System.Drawing.Size(176, 20);
             this.logMemoryChanges.TabIndex = 2;
@@ -184,6 +184,7 @@ namespace DiskMonitoring_DeskTop
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "DiskMonitoring";
             this.Text = "DiskMonitoring";
+            this.Closed += DiskMonitoring_Closed;
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -195,9 +196,11 @@ namespace DiskMonitoring_DeskTop
 
         }
 
+
+
         #endregion
 
-      
+
         private System.Windows.Forms.Label MemoryChangesLabel;
         private System.Windows.Forms.CheckBox logMemoryChanges;
         private System.Windows.Forms.CheckBox LogFileChanges;

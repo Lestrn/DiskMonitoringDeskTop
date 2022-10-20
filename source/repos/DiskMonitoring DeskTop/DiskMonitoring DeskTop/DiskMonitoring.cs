@@ -213,7 +213,7 @@ namespace DiskMonitoring_DeskTop
         {
             watcher = new FileSystemWatcher() { Path = path };
             watcher.EnableRaisingEvents = KeepWatch;
-            watcher.IncludeSubdirectories = true;
+            watcher.IncludeSubdirectories = IncludeSubDirectoriesCB.Checked;
             watcher.Renamed += new RenamedEventHandler(WatcherRenamed);
             watcher.Changed += new FileSystemEventHandler(WatcherChanged);
             watcher.Created += new FileSystemEventHandler(WatcherChanged);

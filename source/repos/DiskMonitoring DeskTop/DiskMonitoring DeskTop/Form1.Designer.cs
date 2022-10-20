@@ -44,6 +44,7 @@ namespace DiskMonitoring_DeskTop
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.OpenLogFilesBtn = new System.Windows.Forms.Button();
             this.DeleteLogFilesBtn = new System.Windows.Forms.Button();
+            this.IncludeSubDirectoriesCB = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -62,9 +63,10 @@ namespace DiskMonitoring_DeskTop
             // logMemoryChanges
             // 
             this.logMemoryChanges.AutoSize = true;
-            this.logMemoryChanges.Location = new System.Drawing.Point(1003, 67);
+            this.logMemoryChanges.Font = new System.Drawing.Font("Lucida Sans Typewriter", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.logMemoryChanges.Location = new System.Drawing.Point(950, 66);
             this.logMemoryChanges.Name = "logMemoryChanges";
-            this.logMemoryChanges.Size = new System.Drawing.Size(176, 20);
+            this.logMemoryChanges.Size = new System.Drawing.Size(228, 21);
             this.logMemoryChanges.TabIndex = 2;
             this.logMemoryChanges.Text = "log disk memory change";
             this.logMemoryChanges.UseVisualStyleBackColor = true;
@@ -72,9 +74,10 @@ namespace DiskMonitoring_DeskTop
             // LogFileChanges
             // 
             this.LogFileChanges.AutoSize = true;
+            this.LogFileChanges.Font = new System.Drawing.Font("Lucida Sans Typewriter", 9F);
             this.LogFileChanges.Location = new System.Drawing.Point(12, 67);
             this.LogFileChanges.Name = "LogFileChanges";
-            this.LogFileChanges.Size = new System.Drawing.Size(123, 20);
+            this.LogFileChanges.Size = new System.Drawing.Size(174, 21);
             this.LogFileChanges.TabIndex = 3;
             this.LogFileChanges.Text = "log file changes";
             this.LogFileChanges.UseVisualStyleBackColor = true;
@@ -165,7 +168,7 @@ namespace DiskMonitoring_DeskTop
             this.flowLayoutPanel3.Controls.Add(this.currentPathUsedLabel);
             this.flowLayoutPanel3.Location = new System.Drawing.Point(237, 12);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(735, 120);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(707, 120);
             this.flowLayoutPanel3.TabIndex = 13;
             // 
             // OpenLogFilesBtn
@@ -180,13 +183,27 @@ namespace DiskMonitoring_DeskTop
             // 
             // DeleteLogFilesBtn
             // 
-            this.DeleteLogFilesBtn.Location = new System.Drawing.Point(1037, 106);
+            this.DeleteLogFilesBtn.Location = new System.Drawing.Point(1037, 93);
             this.DeleteLogFilesBtn.Name = "DeleteLogFilesBtn";
             this.DeleteLogFilesBtn.Size = new System.Drawing.Size(141, 26);
             this.DeleteLogFilesBtn.TabIndex = 15;
             this.DeleteLogFilesBtn.Text = "Delete Log Files";
             this.DeleteLogFilesBtn.UseVisualStyleBackColor = true;
             this.DeleteLogFilesBtn.Click += new System.EventHandler(this.DeleteLogFilesBtn_Click);
+            // 
+            // IncludeSubDirectoriesCB
+            // 
+            this.IncludeSubDirectoriesCB.AutoSize = true;
+            this.IncludeSubDirectoriesCB.Checked = true;
+            this.IncludeSubDirectoriesCB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.IncludeSubDirectoriesCB.Font = new System.Drawing.Font("Lucida Sans Typewriter", 9F);
+            this.IncludeSubDirectoriesCB.Location = new System.Drawing.Point(173, 142);
+            this.IncludeSubDirectoriesCB.Name = "IncludeSubDirectoriesCB";
+            this.IncludeSubDirectoriesCB.Size = new System.Drawing.Size(237, 21);
+            this.IncludeSubDirectoriesCB.TabIndex = 16;
+            this.IncludeSubDirectoriesCB.Text = "Include sub directories";
+            this.IncludeSubDirectoriesCB.UseVisualStyleBackColor = true;
+            this.IncludeSubDirectoriesCB.CheckedChanged += new System.EventHandler(this.IncludeSubDirectoriesCB_CheckedChanged);
             // 
             // DiskMonitoring
             // 
@@ -195,6 +212,7 @@ namespace DiskMonitoring_DeskTop
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1191, 502);
+            this.Controls.Add(this.IncludeSubDirectoriesCB);
             this.Controls.Add(this.DeleteLogFilesBtn);
             this.Controls.Add(this.OpenLogFilesBtn);
             this.Controls.Add(this.flowLayoutPanel3);
@@ -239,6 +257,7 @@ namespace DiskMonitoring_DeskTop
         private FlowLayoutPanel flowLayoutPanel3;
         private Button OpenLogFilesBtn;
         private Button DeleteLogFilesBtn;
+        private CheckBox IncludeSubDirectoriesCB;
     }
 }
 

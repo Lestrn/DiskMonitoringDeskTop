@@ -127,5 +127,10 @@ namespace DiskMonitoring_DeskTop
                 File.Delete(path);
             }
         }
+
+        private void IncludeSubDirectoriesCB_CheckedChanged(object sender, EventArgs e)
+        {
+            StopMonitoringChanges();
+        }
     }
 }

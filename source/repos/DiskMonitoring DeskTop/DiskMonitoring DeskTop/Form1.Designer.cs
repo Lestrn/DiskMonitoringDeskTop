@@ -42,6 +42,8 @@ namespace DiskMonitoring_DeskTop
             this.FileChangesLable = new System.Windows.Forms.Label();
             this.currentPathUsedLabel = new System.Windows.Forms.Label();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.OpenLogFilesBtn = new System.Windows.Forms.Button();
+            this.DeleteLogFilesBtn = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -79,9 +81,9 @@ namespace DiskMonitoring_DeskTop
             // 
             // FileChangesBtn
             // 
-            this.FileChangesBtn.Location = new System.Drawing.Point(12, 119);
+            this.FileChangesBtn.Location = new System.Drawing.Point(12, 138);
             this.FileChangesBtn.Name = "FileChangesBtn";
-            this.FileChangesBtn.Size = new System.Drawing.Size(141, 23);
+            this.FileChangesBtn.Size = new System.Drawing.Size(141, 26);
             this.FileChangesBtn.TabIndex = 5;
             this.FileChangesBtn.Text = "Start Monitoring";
             this.FileChangesBtn.UseVisualStyleBackColor = true;
@@ -89,9 +91,9 @@ namespace DiskMonitoring_DeskTop
             // 
             // MemoryChangesBtn
             // 
-            this.MemoryChangesBtn.Location = new System.Drawing.Point(1038, 119);
+            this.MemoryChangesBtn.Location = new System.Drawing.Point(1037, 138);
             this.MemoryChangesBtn.Name = "MemoryChangesBtn";
-            this.MemoryChangesBtn.Size = new System.Drawing.Size(141, 23);
+            this.MemoryChangesBtn.Size = new System.Drawing.Size(141, 26);
             this.MemoryChangesBtn.TabIndex = 6;
             this.MemoryChangesBtn.Text = "Start Monitoring";
             this.MemoryChangesBtn.UseVisualStyleBackColor = true;
@@ -121,7 +123,7 @@ namespace DiskMonitoring_DeskTop
             // 
             this.flowLayoutPanel2.AutoScroll = true;
             this.flowLayoutPanel2.Controls.Add(this.MemoryChangesLabel);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(584, 148);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(583, 189);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(595, 301);
             this.flowLayoutPanel2.TabIndex = 10;
@@ -131,7 +133,7 @@ namespace DiskMonitoring_DeskTop
             this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.FileChangesLable);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 148);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 189);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(565, 301);
             this.flowLayoutPanel1.TabIndex = 11;
@@ -166,6 +168,26 @@ namespace DiskMonitoring_DeskTop
             this.flowLayoutPanel3.Size = new System.Drawing.Size(735, 120);
             this.flowLayoutPanel3.TabIndex = 13;
             // 
+            // OpenLogFilesBtn
+            // 
+            this.OpenLogFilesBtn.Location = new System.Drawing.Point(12, 93);
+            this.OpenLogFilesBtn.Name = "OpenLogFilesBtn";
+            this.OpenLogFilesBtn.Size = new System.Drawing.Size(141, 26);
+            this.OpenLogFilesBtn.TabIndex = 14;
+            this.OpenLogFilesBtn.Text = "Open Log Files";
+            this.OpenLogFilesBtn.UseVisualStyleBackColor = true;
+            this.OpenLogFilesBtn.Click += new System.EventHandler(this.OpenLogFilesBtn_Click);
+            // 
+            // DeleteLogFilesBtn
+            // 
+            this.DeleteLogFilesBtn.Location = new System.Drawing.Point(1037, 106);
+            this.DeleteLogFilesBtn.Name = "DeleteLogFilesBtn";
+            this.DeleteLogFilesBtn.Size = new System.Drawing.Size(141, 26);
+            this.DeleteLogFilesBtn.TabIndex = 15;
+            this.DeleteLogFilesBtn.Text = "Delete Log Files";
+            this.DeleteLogFilesBtn.UseVisualStyleBackColor = true;
+            this.DeleteLogFilesBtn.Click += new System.EventHandler(this.DeleteLogFilesBtn_Click);
+            // 
             // DiskMonitoring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -173,6 +195,8 @@ namespace DiskMonitoring_DeskTop
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1191, 502);
+            this.Controls.Add(this.DeleteLogFilesBtn);
+            this.Controls.Add(this.OpenLogFilesBtn);
             this.Controls.Add(this.flowLayoutPanel3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -182,9 +206,9 @@ namespace DiskMonitoring_DeskTop
             this.Controls.Add(this.LogFileChanges);
             this.Controls.Add(this.logMemoryChanges);
             this.Controls.Add(this.flowLayoutPanel2);
+            this.MaximizeBox = false;
             this.Name = "DiskMonitoring";
             this.Text = "DiskMonitoring";
-            this.Closed += DiskMonitoring_Closed;
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -213,6 +237,8 @@ namespace DiskMonitoring_DeskTop
         private Label FileChangesLable;
         private Label currentPathUsedLabel;
         private FlowLayoutPanel flowLayoutPanel3;
+        private Button OpenLogFilesBtn;
+        private Button DeleteLogFilesBtn;
     }
 }
 

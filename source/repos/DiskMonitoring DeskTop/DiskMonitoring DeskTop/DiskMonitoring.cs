@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Principal;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace DiskMonitoring_DeskTop
 {
     delegate void SetTextCallback(string text);
-    public partial class DiskMonitoring : Form
+    public partial class DiskMonitoring 
     {
         private static FileSystemWatcher watcher;
+        private const string LOGPATHFILECHANGES = @"..\log\LogFileChanges.txt";
+        private const string LOGPATHMEMORYCHANGES = @"..\log\LogMemoryChanges.txt";
         public bool KeepWatch { get; set; } = true;
         private bool IsFile(string path)
         {
@@ -47,7 +50,7 @@ namespace DiskMonitoring_DeskTop
                 text += $"\nUser: {Environment.UserName}\n\n";
                 FileChangesLable.Text += text;
                 flowLayoutPanel1.AutoScrollPosition = new System.Drawing.Point(flowLayoutPanel1.HorizontalScroll.Minimum, flowLayoutPanel1.VerticalScroll.Maximum);
-                LogTXT(text, LogFileChanges, "LogFileChanges.txt");
+                LogTXT(text, LogFileChanges, LOGPATHFILECHANGES);
             }
         }
         private void PrinterMemory(string text)
@@ -62,7 +65,7 @@ namespace DiskMonitoring_DeskTop
                 text += "\n";
                 MemoryChangesLabel.Text += text;
                 flowLayoutPanel2.AutoScrollPosition = new System.Drawing.Point(flowLayoutPanel2.HorizontalScroll.Minimum, flowLayoutPanel2.VerticalScroll.Maximum);
-                LogTXT(text, logMemoryChanges, "LogMemoryChanges.txt");
+                LogTXT(text, logMemoryChanges, LOGPATHMEMORYCHANGES);
             }
         }
         private void LogTXT(string text, CheckBox checkBox, string path)
@@ -70,6 +73,10 @@ namespace DiskMonitoring_DeskTop
             if (!checkBox.Checked)
             {
                 return;
+            }
+            if (!File.Exists(path))
+            {
+                Program.CheckOrCreateLogDirectory();                
             }
             File.AppendAllText(path, text);
         }

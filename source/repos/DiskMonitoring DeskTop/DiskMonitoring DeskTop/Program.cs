@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace DiskMonitoring_DeskTop
@@ -14,9 +13,18 @@ namespace DiskMonitoring_DeskTop
         [STAThread]
         static void Main()
         {
+            new Thread(CheckOrCreateLogDirectory).Start();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DiskMonitoring());
+            Application.Run(new DiskMonitoring());           
+        }
+        public static void CheckOrCreateLogDirectory()
+        {
+            bool exists = Directory.Exists(@"..\log");
+            if (!exists)
+            {
+                Directory.CreateDirectory(@"..\log");
+            }
         }
     }
 }

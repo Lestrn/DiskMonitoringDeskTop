@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -100,6 +102,29 @@ namespace DiskMonitoring_DeskTop
             if (keepDiskMonitoringRun)
             {
                 StopMemoryChanges();
+            }
+        }
+
+        private void OpenLogFilesBtn_Click(object sender, EventArgs e)
+        {
+            OpenLogDirectory();
+        }
+        private void OpenLogDirectory()
+        {
+            Program.CheckOrCreateLogDirectory();
+            Process.Start(@"..\log");
+        }
+
+        private void DeleteLogFilesBtn_Click(object sender, EventArgs e)
+        {
+            DeleteFile(LOGPATHFILECHANGES);
+            DeleteFile(LOGPATHMEMORYCHANGES);
+        }
+        private void DeleteFile(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
             }
         }
     }

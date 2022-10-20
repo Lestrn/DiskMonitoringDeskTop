@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Security.Principal;
-using System.Drawing;
-using System.Diagnostics;
+
 
 namespace DiskMonitoring_DeskTop
 {
@@ -82,21 +77,24 @@ namespace DiskMonitoring_DeskTop
         }
         private void MemoryMonitoringAddon(string pathRoot, long temp, long driveSizeMb)
         {
-            PrinterMemory(new String('*', 50));
+            StringBuilder builder = new StringBuilder();
+
+            builder.AppendLine(new String('*', 50));
             if (temp > driveSizeMb)
             {
-                PrinterMemory($"Memory of disk changed! ({pathRoot})\nTotal free memory space + {temp - driveSizeMb}kb");
+                builder.AppendLine($"Memory of disk changed! ({pathRoot})\nTotal free memory space + {temp - driveSizeMb}kb");
             }
             else if (temp < driveSizeMb)
             {
-                PrinterMemory($"Memory of disk changed! ({pathRoot})\nTotal free memory space  {temp - driveSizeMb}kb");
+                builder.AppendLine($"Memory of disk changed! ({pathRoot})\nTotal free memory space  {temp - driveSizeMb}kb");
             }
             else
             {
-                PrinterMemory("No changes was found");
+                builder.AppendLine("No changes was found");
             }
-            PrinterMemory($"{DateTime.Now}");
-            PrinterMemory(new String('*', 50));
+            builder.AppendLine($"{DateTime.Now}");
+            builder.AppendLine(new String('*', 50));
+            PrinterMemory(builder.ToString());
         }
         private void WatcherChanged(object sender, FileSystemEventArgs e)
         {
@@ -159,7 +157,7 @@ namespace DiskMonitoring_DeskTop
             long temp;
             while (parameters.KeepRun)
             {
-                Thread.Sleep(4000);
+                Thread.Sleep(2000);
                 temp = driveInfo.AvailableFreeSpace / 1000; //kb
                 MemoryMonitoringAddon(pathRoot, temp, driveSizeMb);
                 driveSizeMb = temp;

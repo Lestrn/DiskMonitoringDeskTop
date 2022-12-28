@@ -11,7 +11,7 @@ namespace DiskMonitoring_DeskTop
     {
         private string path;
         private bool keepMemoryMonitoringRun = true;
-        private bool keepDiskMonitoringRun = true;
+        private bool startNextRun = true;
         private static Thread monitorMemory;
         private static ParamsMemoryMonitoring paramsMemory = new ParamsMemoryMonitoring();
         public DiskMonitoring()
@@ -20,7 +20,7 @@ namespace DiskMonitoring_DeskTop
         }        
         private void FileChangesBtn_Click(object sender, EventArgs e)
         {
-            if (keepDiskMonitoringRun)
+            if (startNextRun)
             {
                 StartMonitoringChanges();
                 return;
@@ -37,14 +37,14 @@ namespace DiskMonitoring_DeskTop
             MonitoringDirectories(path);
             watcher.EnableRaisingEvents = KeepWatch;
             FileChangesBtn.Text = "Stop Monitoring";
-            keepDiskMonitoringRun = false;
+            startNextRun = false;
         }
         private void StopMonitoringChanges()
         {
             KeepWatch = false;
             watcher.EnableRaisingEvents = KeepWatch;
             FileChangesBtn.Text = "Start Monitoring";
-            keepDiskMonitoringRun = true;
+            startNextRun = true;
         }
         private void MemoryChangesBtn_Click(object sender, EventArgs e)
         {
@@ -86,17 +86,6 @@ namespace DiskMonitoring_DeskTop
             }
         }
 
-        private void DiskMonitoring_Closed(object sender, System.EventArgs e)
-        {
-            if (keepMemoryMonitoringRun && watcher != null) // Closing all threads after program was closed  if they were opened
-            {
-                StopMonitoringChanges();
-            }
-            if (keepDiskMonitoringRun)
-            {
-                StopMemoryChanges();
-            }
-        }
 
         private void OpenLogFilesBtn_Click(object sender, EventArgs e)
         {
@@ -124,6 +113,18 @@ namespace DiskMonitoring_DeskTop
         private void IncludeSubDirectoriesCB_CheckedChanged(object sender, EventArgs e)
         {
             StopMonitoringChanges();
+        }
+
+        private void DiskMonitoring_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (keepMemoryMonitoringRun && watcher != null) // Closing all threads after program was closed  if they were opened
+            {
+                StopMonitoringChanges();
+            }
+            if (startNextRun)
+            {
+                StopMemoryChanges();
+            }
         }
     }
 }

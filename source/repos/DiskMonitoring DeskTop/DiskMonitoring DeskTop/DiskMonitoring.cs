@@ -98,8 +98,6 @@ namespace DiskMonitoring_DeskTop
         }
         private void WatcherChanged(object sender, FileSystemEventArgs e)
         {
-            Random random = new Random();
-
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
                 bool isFile = IsFile(e.FullPath);
@@ -131,7 +129,6 @@ namespace DiskMonitoring_DeskTop
         }
         private void WatcherRenamed(object sender, RenamedEventArgs e)
         {
-            Random random = new Random();
             PrinterFileChange($"Directory was renamed old path: {e.OldFullPath}\n" +
                 $"New path  {e.FullPath}\n" +
                 $"Old path  {e.OldFullPath}\n" +
@@ -156,11 +153,11 @@ namespace DiskMonitoring_DeskTop
             long driveSizeMb = driveInfo.AvailableFreeSpace / 1000; //kb
             long temp;
             while (parameters.KeepRun)
-            {
-                Thread.Sleep(2000);
+            {              
                 temp = driveInfo.AvailableFreeSpace / 1000; //kb
                 MemoryMonitoringAddon(pathRoot, temp, driveSizeMb);
                 driveSizeMb = temp;
+                Thread.Sleep(2000);
             }
         }
         public string GetPathFromUser()
